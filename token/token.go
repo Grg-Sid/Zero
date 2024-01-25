@@ -24,8 +24,12 @@ const (
 	BANG     = "!"
 	SLASH    = "/"
 	ASTERISK = "*"
-	LT       = "LT"
-	GT       = "GT"
+
+	// Comparison Operator
+	LT     = "LT"
+	GT     = "GT"
+	EQ     = "=="
+	NOT_EQ = "!="
 
 	// Delimiters
 	COMMA     = ","
