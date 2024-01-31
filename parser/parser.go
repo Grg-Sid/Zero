@@ -7,11 +7,17 @@ import (
 	"zero/token"
 )
 
+type prefixParserFn func() ast.Expression
+type infixParserFn func(ast.Expression) ast.Expression
+
 type Parser struct {
 	l         *lexer.Lexer
 	errors    []string
 	currToken token.Token
 	peekToken token.Token
+
+	prefixParserFns map[token.TokenType]prefixParserFn
+	infixParserFns  map[token.TokenType]infixParserFn
 }
 
 func New(l *lexer.Lexer) *Parser {
@@ -108,4 +114,13 @@ func (p *Parser) expectPeek(tt token.TokenType) bool {
 		p.peekError(tt)
 		return false
 	}
+}
+
+// Expression Parsing
+
+func (p *Parser) registerPrefix(tokenType token.TokenType, fn prefixParserFn) {
+	p.prefixParserFns[tokenType] = fn
+}
+func (p *Parser) registerInfix(tokenType token.TokenType, fn infixParserFn) {
+	p.infixParserFns[tokenType] = fn
 }
